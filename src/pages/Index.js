@@ -51,6 +51,7 @@ class Index extends Component {
                 <button className={"btn-success"}>Add task</button>
                 <br/>
                 <br/>
+                <TaskList tasks={this.state.tasks} />
             </div>
         )
     }
