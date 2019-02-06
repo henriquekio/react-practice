@@ -1,33 +1,56 @@
 import React, {Component} from 'react'
-
+import TaskService from '../service/TaskResourceService.js'
+import swal from 'sweetalert'
+import TaskList from '../components/TaskList'
 
 class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            text_to_translate: "",
-            text_translated: "",
+            tasks: [],
+            newTask: {}
         };
 
-        this.handleChangeTextTranslated = this.handleChangeTextTranslated.bind(this);
+        this.modelDataChange = this.modelDataChange.bind(this);
     }
 
-    handleChangeTextTranslated(e) {
+    componentDidMount() {
+        this.setState({
+            tasks: TaskService.getTasks()
+        });
+    }
+
+    /**
+     * @type event
+     * @param e
+     */
+    modelDataChange(e) {
         return this.setState({
-            text_to_translate: e.target.value
+            newTask: e.target.value
         })
+    }
+
+    addTask(){
+        TaskService.setTaskIndexedDb(this.state.newTask)
+            .then(() =>{
+                swal('Tarefa Adicionada !!', '', 'success');
+            })
+            .catch(err => {
+                swal('Opss..', 'Desculpe, ocorreu um erro interno. Por favor tente novamente mais tarde.', 'error');
+                console.warn(err);
+            })
     }
 
 
     render() {
         return (
             <div className={"container-form"}>
-                <textarea name="text_to_translated" placeholder={"Digite o texto a ser traduzido"}
-                          value={this.state.text_to_translate} onChange={this.handleChangeTextTranslated}/>
-                <button className={"btn-success"}>Traduzir</button>
+                <h1 className={"text-center"}>Add your task</h1>
+                <br/>
+                <input name="task" placeholder={""} onChange={this.modelDataChange}/>
+                <button className={"btn-success"}>Add task</button>
                 <br/>
                 <br/>
-                <p>{this.state.text_translated}</p>
             </div>
         )
     }
