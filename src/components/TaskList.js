@@ -3,17 +3,12 @@ import React, {Component} from 'react'
 class TaskList extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            tasks: this.props
-        };
-
         this.listTasks = this.listTasks.bind(this);
     }
 
     listTasks() {
-        if (this.state.tasks.length > 0) {
-            const tasks = this.state.tasks;
+        if (this.props.tasks.length > 0) {
+            const tasks = this.props.tasks;
             return tasks.map((task) =>
                 <li>{task.title}</li>
             );
@@ -26,6 +21,7 @@ class TaskList extends Component {
 
     render() {
         let list = this.listTasks();
+        console.log(list);
 
         return (<ul>{list}</ul>);
     }

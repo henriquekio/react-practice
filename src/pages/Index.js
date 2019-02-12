@@ -8,10 +8,14 @@ class Index extends Component {
         super(props);
         this.state = {
             tasks: [],
-            newTask: {}
+            newTask: {
+                title: null,
+                concluido: false
+            }
         };
 
         this.modelDataChange = this.modelDataChange.bind(this);
+        this.addTask = this.addTask.bind(this);
     }
 
     componentDidMount() {
@@ -30,15 +34,19 @@ class Index extends Component {
         })
     }
 
-    addTask(){
-        TaskService.setTaskIndexedDb(this.state.newTask)
-            .then(() =>{
-                swal('Tarefa Adicionada !!', '', 'success');
-            })
-            .catch(err => {
-                swal('Opss..', 'Desculpe, ocorreu um erro interno. Por favor tente novamente mais tarde.', 'error');
-                console.warn(err);
-            })
+    addTask() {
+        if (this.state.newTask.title !== null) {
+            TaskService.setTaskIndexedDb(this.state.newTask)
+                .then(() => {
+                    swal('Tarefa Adicionada !!', '', 'success');
+                })
+                .catch(err => {
+                    swal('Opss..', 'Desculpe, ocorreu um erro interno. Por favor tente novamente mais tarde.', 'error');
+                    console.warn(err);
+                })
+        }else {
+            swal('Oppss...', 'Digite a tarefa', 'warning')
+        }
     }
 
 
@@ -48,10 +56,10 @@ class Index extends Component {
                 <h1 className={"text-center"}>Add your task</h1>
                 <br/>
                 <input name="task" placeholder={""} onChange={this.modelDataChange}/>
-                <button className={"btn-success"}>Add task</button>
+                <button onClick={this.addTask} className={"btn-success"}>Add task</button>
                 <br/>
                 <br/>
-                <TaskList tasks={this.state.tasks} />
+                <TaskList tasks={this.state.tasks}/>
             </div>
         )
     }
