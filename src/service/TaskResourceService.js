@@ -3,16 +3,23 @@ import localForage from 'localforage';
 class TaskResourceService {
 
     static getTasks() {
-        let tasks = [];
-        localForage.iterate(function (value, key, iterationNumber) {
-            let task = {
-                key: key,
-                value: value
-            };
-            tasks.push(task);
+        let tasksPromisse = new Promise((resolve, reject) => {
+            let tasks = [];
+
+            localForage.iterate(function (value, key) {
+                let task = {
+                    key: key,
+                    value: value
+                };
+                tasks.push(task);
+            }).then(() => {
+                resolve(tasks)
+            });
+
         });
 
-        return tasks;
+
+        return tasksPromisse;
     }
 
     /**

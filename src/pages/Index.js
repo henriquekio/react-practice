@@ -14,52 +14,59 @@ class Index extends Component {
             }
         };
 
-        this.modelDataChange = this.modelDataChange.bind(this);
+        this.setTaskChange = this.setTaskChange.bind(this);
         this.addTask = this.addTask.bind(this);
     }
 
     componentDidMount() {
-        this.setState({
-            tasks: TaskService.getTasks()
+        TaskService.getTasks().then(data => {
+            console.log(data);
+            this.setState({
+                tasks: data
+            });
+
         });
+
     }
 
     /**
      * @type event
      * @param e
      */
-    modelDataChange(e) {
-        return this.setState({
+    setTaskChange(e) {
+        this.setState({
             newTask: e.target.value
         })
     }
 
     addTask() {
-        if (this.state.newTask.title !== null) {
+        if (this.state.newTask.title !== null && this.state.newTask.title !== "") {
             TaskService.setTaskIndexedDb(this.state.newTask)
                 .then(() => {
                     swal('Tarefa Adicionada !!', '', 'success');
+                    TaskService.getTasks().then((data) => this.setState({tasks: data}));
                 })
                 .catch(err => {
                     swal('Opss..', 'Desculpe, ocorreu um erro interno. Por favor tente novamente mais tarde.', 'error');
                     console.warn(err);
                 })
-        }else {
+        } else {
             swal('Oppss...', 'Digite a tarefa', 'warning')
         }
     }
 
-
     render() {
+        const {tasks} = this.state;
+
         return (
             <div className={"container-form"}>
                 <h1 className={"text-center"}>Add your task</h1>
                 <br/>
-                <input name="task" placeholder={""} onChange={this.modelDataChange}/>
+                <input name="task" placeholder={""} onChange={this.setTaskChange}/>
                 <button onClick={this.addTask} className={"btn-success"}>Add task</button>
                 <br/>
                 <br/>
-                <TaskList tasks={this.state.tasks}/>
+                <TaskList tasks={tasks}/>
             </div>
         )
     }
