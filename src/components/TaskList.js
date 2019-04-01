@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-class TaskList extends Component {
+export default class TaskList extends Component {
     constructor(props) {
         super(props);
 
@@ -10,7 +10,21 @@ class TaskList extends Component {
     listTasks(tasks) {
         if (tasks.length > 0) {
             return tasks.map((task) =>
-                <li key={task.key.toString()}>{task.value}</li>
+                <li key={task.key.toString()}>
+                    <div className={"taskContainer"}>
+                        <div className={"taskContent"}>
+                            {task.value}
+                        </div>
+                        <div className={"taskAction"}>
+                            <button className={"taskActionButtons done"}>
+                                <i className={"material-icons"}>done</i>
+                            </button>
+                            <button className={"taskActionButtons remove"}>
+                                <i className={"material-icons"}>clear</i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
             );
         }
 
@@ -26,5 +40,3 @@ class TaskList extends Component {
         return (<ul>{list}</ul>);
     }
 }
-
-export default TaskList

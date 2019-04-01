@@ -71,3 +71,36 @@ li{
     box-shadow: 5px 5px 69px 0px rgba(0, 0, 0, 0.3);
 
 }
+
+
+.taskContainer{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eeeeee;
+    padding: 0.3em 0;
+}
+
+.taskContent{
+    flex: 1;
+}
+
+.taskAction{
+    display: flex;
+    align-items: center;
+}
+
+.taskActionButtons{
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    margin: 0 0.3em;
+    outline: 0;
+}
+
+.done .material-icons{
+    color: #9ccc65;
+}
+
+.remove .material-icons{
+    color: #e57373;
+}
