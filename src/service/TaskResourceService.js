@@ -32,6 +32,13 @@ class TaskResourceService {
         let key = await localForage.keys().then(key => key.length + 1);
         return key.toString();
     }
+
+    static async removeTask(key) {
+        localForage.removeItem(key)
+            .catch((e) => {
+                throw e
+            });
+    }
 }
 
 

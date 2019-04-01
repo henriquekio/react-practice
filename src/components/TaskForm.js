@@ -6,7 +6,7 @@ export default class TaskForm extends Component {
         super(props);
 
         this.state = {
-            task: null
+            task: ""
         }
     }
 
@@ -27,7 +27,7 @@ export default class TaskForm extends Component {
         }else{
             this.props.addTask(task);
             this.setState({
-                task: null
+                task: ""
             });
         }
     }

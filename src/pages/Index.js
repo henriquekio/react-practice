@@ -23,6 +23,7 @@ class Index extends Component {
 
     }
 
+
     addTask = (task) => {
         TaskService.setTaskIndexedDb(task)
             .then(() => {
@@ -35,6 +36,20 @@ class Index extends Component {
             })
     }
 
+    removeTask = (key, index) => {
+        try {
+            TaskService.removeTask(key).then(() => {
+                swal('Deu bom!!!', 'Tarefa removida com sucesso', 'success');
+                const {tasks} = this.state;
+                tasks.splice(index, 1);
+                this.setState({tasks});
+            });
+        } catch (e) {
+            swal('Opss..', 'Desculpe, ocorreu um erro interno. Por favor tente novamente mais tarde.', 'error');
+            console.log(e);
+        }
+    }
+
     render() {
         const {tasks} = this.state;
 
@@ -43,7 +58,7 @@ class Index extends Component {
                 <TaskForm addTask={this.addTask}/>
                 <br/>
                 <br/>
-                <TaskList tasks={tasks}/>
+                <TaskList removeTask={this.removeTask} tasks={tasks}/>
             </MainContent>
         )
     }
